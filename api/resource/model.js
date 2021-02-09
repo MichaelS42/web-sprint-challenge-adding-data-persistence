@@ -1,7 +1,7 @@
 // build your `Resource` model here
 const db = require("../../data/db-config.js");
 
-module.exports = { find, findById, add};
+module.exports = { find, findById, add };
 
 async function find() {
   return db("resources");
