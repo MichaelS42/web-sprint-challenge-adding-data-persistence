@@ -1,17 +1,22 @@
 // build your `/api/projects` router here
 const express = require("express");
-
-const db = require("../../data/dbconfig.js");
-const model = require('./model.js');
+const Model = require('./model.js');
 
 const router = express.Router();
 
 
+router.get("/", (req, res) => {
+  Model.get()
+  .then((projects) => res.status(200).send(projects))
+  .catch((err) => {
+    res.status(500).json({ message: "failed to get projects"})
+  })
+});
 
 router.post('/', (req, res) => {
     const projectData = req.body;
   
-    Projects.add(projectData)
+    Model.add(projectData)
       .then(project => {
         res.status(201).json(project);
       })
@@ -20,15 +25,17 @@ router.post('/', (req, res) => {
       });
   });
   
-  router.get('/', (req, res) => {
-    Projects.find()
-      .then(projects => {
-        res.json(projects);
-      })
-      .catch(err => {
-        res.status(500).json({ message: 'Failed to get projects' });
-      });
-  });
+//   router.get('/', (req, res) => {
+//     Model.get(req.id)
+//       .then(projects => {
+//         res.status(200).json(projects);
+//       })
+//       .catch(err => {
+//         res.status(500).json({ message: 'Failed to get projects' });
+//       });
+//   });
+
+  module.exports = router;
 
 
 

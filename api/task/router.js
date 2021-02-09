@@ -1,7 +1,7 @@
 // build your `/api/tasks` router here
 const express = require("express");
 
-const db = require("../../data/dbconfig.js");
+const db = require("../../data/dbConfig.js");
 const model = require('./model.js');
 
 const router = express.Router();
@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
   });
 
 
-
+  module.exports = router;
 
 
 

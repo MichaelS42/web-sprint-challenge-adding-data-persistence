@@ -1,5 +1,5 @@
 // build your `Task` model here
-const db = require("../../data/db-config.js");
+const db = require("../../data/dbConfig.js");
 
 module.exports = { find, findById, findTasks, add};
 

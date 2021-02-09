@@ -1,34 +1,29 @@
 // build your `Project` model here
-const db = require("../../data/db-config.js");
+const db = require("../../data/dbConfig.js");
 
-module.exports = { find, findById, findTasks, add };
+module.exports = { get, getById, add };
 
-async function find() {
-  return db("projects");
+
+async function get() {
+  const projects = await db("projects")
+  return projects.map((project) => {
+    return {
+      ...project,
+      project_completed: project.project_completed == 0 ? false : true,
+    }
+  });
 }
 
-function findById(id) {
-  return db("projects")
-    .where({ id })
-    .then((schemaObject) => {
-      if (!schemaObject.length) {
-        return Promise.resolve(null);
-      }
-      return schemaObject;
-    });
+async function getById(id) {
+  const [project] = await db("projects").where({ project_id : id })
+  return {
+    ...project,
+    project_completed: project.project_completed == 0 ? false : true
+  }
 }
 
-function findTasks(id) {
-  return db("tasks")
-    .join("projects", "tasks.project_id", "projects.id")
-    .select("p.id", "p.project_name", "p.project_description")
-    .where({ user_id: id });
-}
 
 function add(project) {
   return db("projects")
-    .insert(project)
-    .then((id) => {
-      return findById(id);
-    });
+  .insert(project)
 }
